@@ -24,7 +24,7 @@ const commonTooltip = {
   confine: true,
   formatter: (params) => {
     // 处理 axis 触发 (数组) 和 item 触发 (对象)
-    const p = Array.isArray(params) ? params[0] : params;
+    const p = params;
     let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
     val = (val === undefined || val === null) ? '-' : val;
     const name = p.name || (p.seriesName + (p.dataIndex !== undefined ? ` (${p.axisValue})` : ''));
