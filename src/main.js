@@ -23,16 +23,24 @@ const commonTooltip = {
   textStyle: { color: '#fff', fontSize: 12 },
   confine: true,
   formatter: (params) => {
-    // 处理 axis 触发 (数组) 和 item 触发 (对象)
-    const p = params;
-    let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
-    val = (val === undefined || val === null) ? '-' : val;
-    const name = p.name || (p.seriesName + (p.dataIndex !== undefined ? ` (${p.axisValue})` : ''));
-
-    return `<div style="text-align:center">
-      <div style="color:#94a3b8;font-size:11px;margin-bottom:4px;">${name}</div>
-      <div style="color:#38bdf8;font-size:16px;font-weight:bold">${val}</div>
-    </div>`;
+    const isAxis = Array.isArray(params);
+    const list = isAxis ? params : [params];
+    let html = '';
+    const axisTitle = isAxis && list[0].axisValue !== undefined ? list[0].axisValue : '';
+    if (axisTitle) {
+      html += `<div style="color:#94a3b8;font-size:11px;margin-bottom:4px;text-align:center">${axisTitle}</div>`;
+    }
+    list.forEach((p, idx) => {
+      let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
+      val = (val === undefined || val === null) ? '-' : val;
+      const itemName = isAxis ? (p.seriesName || p.name) : (p.name || p.seriesName);
+      html += `<div style="display:flex;align-items:center;justify-content:center;gap:6px;${idx > 0 ? 'margin-top:2px;' : ''}">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color || '#38bdf8'}"></span>
+        <span style="color:#cbd5e1;font-size:12px">${itemName}</span>
+        <span style="color:#38bdf8;font-size:14px;font-weight:bold">${val}</span>
+      </div>`;
+    });
+    return `<div style="padding:2px 0">${html}</div>`;
   }
 };
 
@@ -86,6 +94,7 @@ const initCharts = () => {
       xAxis: { type: 'category', data: data.months, axisLabel: { color: '#94a3b8' } },
       yAxis: { type: 'value', splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } } },
       series: [{
+        name: 'GDP增长率',
         type: 'line',
         smooth: true,
         symbol: 'circle',
