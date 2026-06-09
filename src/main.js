@@ -23,16 +23,18 @@ const commonTooltip = {
   textStyle: { color: '#fff', fontSize: 12 },
   confine: true,
   formatter: (params) => {
-    // 处理 axis 触发 (数组) 和 item 触发 (对象)
-    const p = params;
-    let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
-    val = (val === undefined || val === null) ? '-' : val;
-    const name = p.name || (p.seriesName + (p.dataIndex !== undefined ? ` (${p.axisValue})` : ''));
-
-    return `<div style="text-align:center">
-      <div style="color:#94a3b8;font-size:11px;margin-bottom:4px;">${name}</div>
-      <div style="color:#38bdf8;font-size:16px;font-weight:bold">${val}</div>
-    </div>`;
+    const arr = Array.isArray(params) ? params : [params];
+    let html = '';
+    arr.forEach((p, i) => {
+      let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
+      val = (val === undefined || val === null) ? '-' : val;
+      const name = p.name || p.axisValue || (p.seriesName != null ? p.seriesName : '');
+      if (i === 0) {
+        html += `<div style="text-align:center;color:#94a3b8;font-size:11px;margin-bottom:4px;">${name}</div>`;
+      }
+      html += `<div style="text-align:center;color:#38bdf8;font-size:16px;font-weight:bold">${val}</div>`;
+    });
+    return `<div>${html}</div>`;
   }
 };
 
