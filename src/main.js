@@ -24,10 +24,11 @@ const commonTooltip = {
   confine: true,
   formatter: (params) => {
     // 处理 axis 触发 (数组) 和 item 触发 (对象)
-    const p = params;
+    const p = Array.isArray(params) ? params[0] : params;
+    if (!p) return '';
     let val = Array.isArray(p.value) ? p.value[p.value.length - 1] : p.value;
     val = (val === undefined || val === null) ? '-' : val;
-    const name = p.name || (p.seriesName + (p.dataIndex !== undefined ? ` (${p.axisValue})` : ''));
+    const name = p.name || p.axisValueLabel || p.axisValue || p.seriesName || '';
 
     return `<div style="text-align:center">
       <div style="color:#94a3b8;font-size:11px;margin-bottom:4px;">${name}</div>
