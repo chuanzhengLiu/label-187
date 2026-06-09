@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>广西南宁市可视化大屏</title>
+  <!-- 引入 ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- 顶部标题栏 -->
+    <header class="dashboard-header">
+      <div class="header-title">广西南宁市智慧城市数据可视化</div>
+      <div class="header-time" id="real-time-clock">Loading...</div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="dashboard-main">
+      <!-- 左侧栏 -->
+      <aside class="column left-column">
+        <div class="card chart-container" id="chart-bar"></div>
+        <div class="card chart-container" id="chart-line"></div>
+        <div class="card chart-container" id="chart-pie"></div>
+      </aside>
+
+      <section class="column center-column">
+        <!-- 大屏展示区域（地图或关键指标） -->
+        <div class="card main-display chart-container" id="main-map"></div>
+      </section>
+
+      <!-- 右侧栏 -->
+      <aside class="column right-column">
+        <div class="card chart-container" id="chart-radar"></div>
+        <div class="card chart-container" id="chart-wordcloud"></div>
+        <div class="card chart-container" id="chart-gauge"></div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- 核心逻辑改为顺序加载 -->
+  <script src="src/mock.js"></script>
+  <script src="src/main.js"></script>
+</body>
+
+</html>
